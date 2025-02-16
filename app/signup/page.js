@@ -31,7 +31,6 @@ const BContainer = styled.div`
 `;
 
 const Container = styled.div`
-
   width: 384px;
   background: #FFFFFF;
   border-radius: 8px;
@@ -40,6 +39,7 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
 `;
+
 const LogoContainer = styled.div`
   width: 384px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -169,94 +169,61 @@ const LinkText = styled.p`
   }
 `;
 
-const ErrorMessage = styled.p`
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-`;
-
-const Login = () => {
+const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log("Connexion avec", data);
+    console.log("Inscription avec", data);
     setTimeout(() => setLoading(false), 2000);
   };
 
   return (
     <BContainer>
-       <LogoContainer>
+      <LogoContainer>
           <Logo>
             <LogoImage src="/images/logo.png" alt="Logo" />
             RED PRODUCT
           </Logo>
         </LogoContainer>
       <Container>
-       
-
-        <Title>Connectez-vous en tant qu'Admin</Title>
+      
+        <Title>Inscrivez-vous en tant qu'Admin</Title>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
-            <Input
-              type="email"
-              id="email"
-              placeholder=" "
-              {...register('email', {
-                required: "L'email est requis",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Adresse e-mail invalide"
-                }
-              })}
-            />
-            <Label htmlFor="email">E-mail</Label>
-            {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            <Input type="text" placeholder=" " {...register('name', { required: "Le nom est requis" })} />
+            <Label>Nom</Label>
+            {errors.name && <p>{errors.name.message}</p>}
           </InputContainer>
 
           <InputContainer>
-            <Input
-              type="password"
-              id="password"
-              placeholder=" "
-              {...register('password', {
-                required: "Le mot de passe est requis",
-                minLength: {
-                  value: 6,
-                  message: "Le mot de passe doit contenir au moins 6 caractères"
-                }
-              })}
-            />
-            <Label htmlFor="password">Mot de passe</Label>
-            {errors.password && (
-              <ErrorMessage>{errors.password.message}</ErrorMessage>
-            )}
+            <Input type="email" placeholder=" " {...register('email', { required: "L'email est requis" })} />
+            <Label>Email</Label>
+            {errors.email && <p>{errors.email.message}</p>}
+          </InputContainer>
+
+          <InputContainer>
+            <Input type="password" placeholder=" " {...register('password', { required: "Le mot de passe est requis" })} />
+            <Label>Mot de passe</Label>
+            {errors.password && <p>{errors.password.message}</p>}
           </InputContainer>
 
           <CheckboxContainer>
-            <Checkbox type="checkbox" id="remember" {...register('remember')} />
-            <label htmlFor="remember">Gardez-moi connecté</label>
+            <Checkbox type="checkbox" {...register('terms', { required: "Vous devez accepter les conditions" })} />
+            <label>Accepter les termes et la politique</label>
           </CheckboxContainer>
 
-          <Button type="submit" disabled={loading}>
-            {loading ? "Chargement..." : "Se connecter"}
-          </Button>
+          <Button type="submit" disabled={loading}>{loading ? "Chargement..." : "S'inscrire"}</Button>
         </form>
 
-        
       </Container>
       <LinkContainer>
-          <LinkText>
-            <Link href="forgotpassword">Mot de passe oublié ?</Link>
-          </LinkText>
-          <LinkText>
-            Vous n’avez pas de compte ? <Link href="/signup">S'inscrire</Link>
-          </LinkText>
-        </LinkContainer>
+          <LinkText>Vous avez déjà un compte ? <Link href="/login">Se connecter</Link></LinkText>
+      </LinkContainer>
     </BContainer>
   );
 };
 
-export default Login;
+export default Signup;
