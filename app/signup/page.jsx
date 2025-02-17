@@ -172,13 +172,38 @@ const LinkText = styled.p`
 const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState();
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log("Inscription avec", data);
-    setTimeout(() => setLoading(false), 2000);
-  };
+    setErrorMessage("");
 
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.name,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Une erreur est survenue");
+      }
+
+      alert("Inscription réussie !");
+      router.push("/login"); // Rediriger vers la page de connexion
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+};
   return (
     <BContainer>
       <LogoContainer>
