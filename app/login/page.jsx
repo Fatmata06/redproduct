@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const BContainer = styled.div`
   position: relative;
@@ -40,6 +41,7 @@ const Container = styled.div`
   position: relative;
   z-index: 1;
 `;
+
 const LogoContainer = styled.div`
   width: 384px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -179,22 +181,51 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log("Connexion avec", data);
-    setTimeout(() => setLoading(false), 2000);
+
+    console.log("login data", data);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Identifiants incorrects");
+      }
+
+      localStorage.setItem("token", result.token);
+      alert("Connexion réussie !");
+      router.push("/dashboard");
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <BContainer>
-       <LogoContainer>
-          <Logo>
-            <LogoImage src="/images/logo.png" alt="Logo" />
-            RED PRODUCT
-          </Logo>
-        </LogoContainer>
+      <LogoContainer>
+        <Logo>
+          <LogoImage src="/images/logo.png" alt="Logo" />
+          RED PRODUCT
+        </Logo>
+      </LogoContainer>
       <Container>
-       
+
 
         <Title>Connectez-vous en tant qu'Admin</Title>
 
@@ -245,16 +276,16 @@ const Login = () => {
           </Button>
         </form>
 
-        
+
       </Container>
       <LinkContainer>
-          <LinkText>
-            <Link href="forgotpassword">Mot de passe oublié ?</Link>
-          </LinkText>
-          <LinkText>
-            Vous n’avez pas de compte ? <Link href="/signup">S'inscrire</Link>
-          </LinkText>
-        </LinkContainer>
+        <LinkText>
+          <Link href="forgotpassword">Mot de passe oublié ?</Link>
+        </LinkText>
+        <LinkText>
+          Vous n’avez pas de compte ? <Link href="/signup">S'inscrire</Link>
+        </LinkText>
+      </LinkContainer>
     </BContainer>
   );
 };

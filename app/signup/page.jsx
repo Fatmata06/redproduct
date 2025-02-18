@@ -173,6 +173,7 @@ const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
+
   const onSubmit = async (data) => {
     setLoading(true);
     setErrorMessage("");
@@ -202,18 +203,19 @@ const Signup = () => {
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
-    }
-};
+    }
+  };
+  
   return (
     <BContainer>
       <LogoContainer>
-          <Logo>
-            <LogoImage src="/images/logo.png" alt="Logo" />
-            RED PRODUCT
-          </Logo>
-        </LogoContainer>
+        <Logo>
+          <LogoImage src="/images/logo.png" alt="Logo" />
+          RED PRODUCT
+        </Logo>
+      </LogoContainer>
       <Container>
-      
+
         <Title>Inscrivez-vous en tant qu'Admin</Title>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -245,7 +247,7 @@ const Signup = () => {
 
       </Container>
       <LinkContainer>
-          <LinkText>Vous avez déjà un compte ? <Link href="/login">Se connecter</Link></LinkText>
+        <LinkText>Vous avez déjà un compte ? <Link href="/login">Se connecter</Link></LinkText>
       </LinkContainer>
     </BContainer>
   );
