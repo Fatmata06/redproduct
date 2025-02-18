@@ -186,8 +186,6 @@ const Login = () => {
   const onSubmit = async (data) => {
     setLoading(true);
 
-    console.log("login data", data);
-
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -205,6 +203,8 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(result.message || "Identifiants incorrects");
       }
+
+      console.log(result);
 
       localStorage.setItem("token", result.token);
       alert("Connexion réussie !");
