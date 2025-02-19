@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Menu, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const DashboardContainer = styled.div`
   display: flex;
