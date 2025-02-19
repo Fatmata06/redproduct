@@ -98,7 +98,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    router.push("/login"); // Rediriger vers la page de connexion
+    router.push("/login");
   };
 
   return (
@@ -110,11 +110,8 @@ export default function Dashboard() {
           <SidebarItem>
             <Menu /> Dashboard
           </SidebarItem>
-          <SidebarItem>
-            <User /> Utilisateurs
-          </SidebarItem>
-          <SidebarItem>
-            <Bell /> Notifications
+          <SidebarItem as={Link} href="/hotels">
+            <Bell /> Listes des hotels
           </SidebarItem>
         </div>
         <div>
