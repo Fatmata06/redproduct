@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/user";
-import { PasswordReset } from "@/models/PasswordReset";
 import bcrypt from "bcryptjs";
 
 export async function POST(req) {
@@ -23,9 +22,6 @@ export async function POST(req) {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   user.password = hashedPassword;
   await user.save();
-
-  // 🔹 Supprimer le token de réinitialisation après utilisation
-  await PasswordReset.deleteOne({ token });
 
   return NextResponse.json({ message: "Mot de passe mis à jour avec succès !" }, { status: 200 });
 }
