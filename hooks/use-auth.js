@@ -8,7 +8,7 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect(() => { 
     const verifyToken = async () => {
       const token = localStorage.getItem('token');
 

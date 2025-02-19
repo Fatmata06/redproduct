@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import BContainer from "@/components/background";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
 
