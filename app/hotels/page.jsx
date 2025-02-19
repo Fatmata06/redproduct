@@ -1,4 +1,5 @@
 "use client";
+
 import styled from "styled-components";
 import { Menu, Bell, User, Plus, LogOut } from "lucide-react";
 import HotelCard from "@/components/HotelCard";
