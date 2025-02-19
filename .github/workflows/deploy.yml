@@ -1,0 +1,28 @@
+name: Deploy Ceddo VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy to VPS
+        run: |
+          sshpass -p '${{ secrets.VPS_PASSWORD }}' ssh -p ${{ secrets.VPS_PORT }} -T -o StrictHostKeyChecking=no root@193.203.169.180 << 'EOF'
+            cd redproduct
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use node  # Utiliser la version de Node.js par défaut
+            git pull origin main
+            npm install  # Installe les dépendances
+            npm run build  # Construire le projet
+            pm2 restart all  # Redémarre les processus gérés par PM2
+          EOF
+        shell: bash
