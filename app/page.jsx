@@ -1,47 +1,66 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import styled from "styled-components";
+import BContainer from "@/components/background";
+
+const LandingPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  color: white;
+  background: linear-gradient(to right, #141e30, #243b55);
+  backdrop-filter: blur(10px);
+`;
+
+const Title = styled.h1`
+  font-size: 4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  color: #f5f5f5;
+`;
+
+const Description = styled.p`
+  font-size: 1.4rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #d1d1d1;
+`;
+
+const Button = styled.button`
+  margin-top: 30px;
+  padding: 14px 28px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  background: #ff8c00;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+
+  &:hover {
+    background: #e07b00;
+    transform: scale(1.05);
+  }
+`;
 
 export default function Home() {
-
   const router = useRouter();
 
-  router.push("/login");
-
   return (
-    <main className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
-      {/* Header */}
-      <header className="w-full flex justify-between items-center p-4 bg-white shadow-md">
-        <h1 className="text-2xl font-bold text-blue-600">Mon Site</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li><a href="#" className="text-gray-700 hover:text-blue-500">Accueil</a></li>
-            <li><a href="#" className="text-gray-700 hover:text-blue-500">À propos</a></li>
-            <li><a href="#" className="text-gray-700 hover:text-blue-500">Contact</a></li>
-          </ul>
-        </nav>
-      </header>
-
-      {/* Section d'accueil */}
-      <section className="flex flex-col items-center text-center mt-10">
-        <h2 className="text-4xl font-bold text-gray-800">Bienvenue sur Mon Site</h2>
-        <p className="text-gray-600 mt-2">Explorez et découvrez nos services.</p>
-        <a 
-          href="#" 
-          className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
-          Découvrir
-        </a>
-      </section>
-
-      {/* Section À propos */}
-      <section className="mt-10 bg-white shadow-md p-6 rounded-lg w-3/4">
-        <h3 className="text-2xl font-semibold text-gray-800">À propos</h3>
-        <p className="text-gray-600 mt-2">
-          Nous sommes une entreprise dédiée à fournir des solutions innovantes pour nos clients.
-        </p>
-      </section>
-    </main>
+    <BContainer>
+      <LandingPageContainer>
+        <Title>RED PRODUCT</Title>
+        <Description>La solution ultime pour une gestion efficace des hôtels.</Description>
+        <Button onClick={() => router.push("/dashboard")}>Accéder à la plateforme</Button>
+      </LandingPageContainer>
+    </BContainer>
   );
 }
-

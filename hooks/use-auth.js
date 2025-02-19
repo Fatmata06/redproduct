@@ -14,7 +14,6 @@ export function useAuth() {
 
       if (!token) {
         toast.error('⚠️ Accès refusé. Veuillez vous connecter.');
-        alert("token not found");
         router.push('/login');
         return;
       }
@@ -32,7 +31,6 @@ export function useAuth() {
           setIsAuthenticated(true);
         } else {
           toast.error('⚠️ Session expirée. Veuillez vous reconnecter.');
-          alert("token expired");
           localStorage.removeItem('token');
           router.push('/login');
         }
