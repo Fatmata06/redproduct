@@ -1,7 +1,8 @@
 "use client";
 import styled from "styled-components";
-import { Menu, Bell, User } from "lucide-react";
+import { Menu, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { useRouter } from "next/navigation";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -29,6 +30,20 @@ const SidebarItem = styled.div`
   transition: 0.3s;
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const LogoutButton = styled.button`
+  background: transparent;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    opacity: 0.8;
   }
 `;
 
@@ -74,12 +89,17 @@ const StatValue = styled.h2`
 `;
 
 export default function Dashboard() {
-
   const isAuthenticated = useAuth();
+  const router = useRouter();
 
   if (!isAuthenticated) {
     return <p>Chargement...</p>;
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login"); // Rediriger vers la page de connexion
+  };
 
   return (
     <DashboardContainer>
@@ -97,9 +117,14 @@ export default function Dashboard() {
             <Bell /> Notifications
           </SidebarItem>
         </div>
-        <SidebarItem>
-          <User /> Mon Profil
-        </SidebarItem>
+        <div>
+          <SidebarItem>
+            <User /> Mon Profil
+          </SidebarItem>
+          <LogoutButton onClick={handleLogout}>
+            <LogOut /> Déconnexion
+          </LogoutButton>
+        </div>
       </Sidebar>
 
       {/* Contenu principal */}

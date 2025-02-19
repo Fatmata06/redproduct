@@ -109,14 +109,14 @@ const CloseButton = styled.button`
 
 
 const hotels = [
-    { name: "Hôtel Terrou-Bi", price: "50.000 XOF", image: "/images/hotel1.jpg" },
-    { name: "King Fahd Palace", price: "60.000 XOF", image: "/images/hotel2.jpg" },
-    { name: "Radisson Blu", price: "55.000 XOF", image: "/images/hotel3.jpg" },
-    { name: "Pullman Dakar", price: "65.000 XOF", image: "/images/hotel4.jpg" },
-    { name: "Hôtel Lac Rose", price: "40.000 XOF", image: "/images/hotel5.jpg" },
-    { name: "Hôtel Saly", price: "30.000 XOF", image: "/images/hotel6.jpg" },
-    { name: "Palm Beach Resort", price: "45.000 XOF", image: "/images/hotel7.jpg" },
-    { name: "Pullman Dakar Teranga", price: "70.000 XOF", image: "/images/hotel8.jpg" },
+    { name: "Hôtel Terrou-Bi", price: "50.000 XOF", image: "/terrou.png" },
+    { name: "King Fahd Palace", price: "60.000 XOF", image: "/king_fahd.png" },
+    { name: "Radisson Blu", price: "55.000 XOF", image: "/radisson.png" },
+    { name: "Pullman Dakar", price: "65.000 XOF", image: "/pullman.png" },
+    { name: "Hôtel Lac Rose", price: "40.000 XOF", image: "/lac_rose.png" },
+    { name: "Hôtel Saly", price: "30.000 XOF", image: "/saly.png" },
+    { name: "Palm Beach Resort", price: "45.000 XOF", image: "/palm.png" },
+    { name: "Pullman Dakar Teranga", price: "70.000 XOF", image: "/teranga.png" },
 ];
 
 export default function HotelsPage() {

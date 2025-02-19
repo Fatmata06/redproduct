@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import BContainer from "@/components/background";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Container = styled.div`
   width: 384px;
@@ -148,6 +149,7 @@ const LinkText = styled.p`
 const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const onSubmit = async (data) => {
     setLoading(true);

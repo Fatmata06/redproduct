@@ -182,7 +182,7 @@ const Login = () => {
 
       toast.success(result.message);
       localStorage.setItem("token", result.token);
-      router.push("/dashboard");
+      router.push("/hotels");
     } catch (error) {
       toast.success(error);
     } finally {
