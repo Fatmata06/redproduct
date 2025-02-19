@@ -1,6 +1,6 @@
 "use client";
 import styled from "styled-components";
-import { Menu, Bell, User, Plus } from "lucide-react";
+import { Menu, Bell, User, Plus, LogOut } from "lucide-react";
 import HotelCard from "@/components/HotelCard";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
