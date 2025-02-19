@@ -1,18 +1,7 @@
 "use client";
 import styled from "styled-components";
 import { useState } from "react";
-
-const BContainer = styled.div`
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: #494C4F;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
+import BContainer from "@/components/background";
 
 const Card = styled.div`
   background: white;
