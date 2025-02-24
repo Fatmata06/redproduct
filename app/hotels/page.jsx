@@ -6,7 +6,7 @@ import HotelCard from "@/components/HotelCard";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import HotelForm from "@/components/HotelForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -117,17 +117,6 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-const hotels = [
-  { name: "Hôtel Terrou-Bi", price: "50.000 XOF", image: "/terrou.png" },
-  { name: "King Fahd Palace", price: "60.000 XOF", image: "/king_fahd.png" },
-  { name: "Radisson Blu", price: "55.000 XOF", image: "/radisson.png" },
-  { name: "Pullman Dakar", price: "65.000 XOF", image: "/pullman.png" },
-  { name: "Hôtel Lac Rose", price: "40.000 XOF", image: "/lac_rose.png" },
-  { name: "Hôtel Saly", price: "30.000 XOF", image: "/saly.png" },
-  { name: "Palm Beach Resort", price: "45.000 XOF", image: "/palm.png" },
-  { name: "Pullman Dakar Teranga", price: "70.000 XOF", image: "/teranga.png" },
-];
-
 const LogoutButton = styled.button`
   background: transparent;
   border: none;
@@ -143,8 +132,26 @@ const LogoutButton = styled.button`
 `;
 
 export default function HotelsPage() {
-  const [showForm, setShowForm] = useState(false);
   const isAuthenticated = useAuth();
+  const [showForm, setShowForm] = useState(false);
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchHotels() {
+      try {
+        const response = await fetch("/api/hotels");
+        const data = await response.json();
+        setHotels(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des hôtels", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchHotels();
+  }, []);
 
   if (!isAuthenticated) {
     return <p>Chargement...</p>;
@@ -192,11 +199,17 @@ export default function HotelsPage() {
         </Header>
 
         {/* Liste des hôtels */}
-        <HotelsGrid>
-          {hotels.map((hotel, index) => (
-            <HotelCard key={index} hotel={hotel} />
-          ))}
-        </HotelsGrid>
+        {loading ? (
+          <p>Chargement des hôtels...</p>
+        ) : (
+          <HotelsGrid>
+            {hotels.length > 0 ? (
+              hotels.map((hotel, index) => <HotelCard key={index} hotel={hotel} />)
+            ) : (
+              <p>Aucun hôtel trouvé.</p>
+            )}
+          </HotelsGrid>
+        )}
       </MainContent>
     </DashboardContainer>
   );

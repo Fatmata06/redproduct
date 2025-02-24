@@ -110,12 +110,22 @@ export default function HotelForm({ onClose, onSubmit }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-    onClose(); // Ferme le formulaire après soumission
+  const handleSubmit = async (hotelData) => {
+    try {
+      const response = await fetch("/api/hotels", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(hotelData),
+      });
+  
+      if (response.ok) {
+        const newHotel = await response.json();
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'hôtel", error);
+    }
   };
-
+  
   return (
     <Overlay>
       <FormContainer>
