@@ -56,11 +56,9 @@ export default function Home() {
 
   return (
     <BContainer>
-      <LandingPageContainer>
         <Title>RED PRODUCT</Title>
         <Description>La solution ultime pour une gestion efficace des hôtels.</Description>
         <Button onClick={() => router.push("/dashboard")}>Accéder à la plateforme</Button>
-      </LandingPageContainer>
     </BContainer>
   );
 }

@@ -8,7 +8,6 @@ import BContainer from "@/components/background";
 import { toast } from "react-toastify";
 
 const Container = styled.div`
-
   width: 384px;
   background: #FFFFFF;
   border-radius: 8px;
@@ -24,7 +23,6 @@ const LogoContainer = styled.div`
   padding-bottom: 2rem;
   position: relative;
   z-index: 1;
-  background: #494C4F;
 `;
 
 const Logo = styled.div`
@@ -123,14 +121,13 @@ const Button = styled.button`
 `;
 
 const LinkContainer = styled.div`
+  margin-top: 20px;
   text-align: center;
   font-weight: bold;
   width: 384px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding-bottom: 2rem;
   position: relative;
   z-index: 1;
-  background: #494C4F;
 `;
 
 const LinkText = styled.p`
