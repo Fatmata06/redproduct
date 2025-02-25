@@ -20,7 +20,7 @@ const Container = styled.div`
 const LogoContainer = styled.div`
   width: 384px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   position: relative;
   z-index: 1;
 `;
