@@ -121,7 +121,6 @@ const Button = styled.button`
 `;
 
 const LinkContainer = styled.div`
-  margin-top: 20px;
   text-align: center;
   font-weight: bold;
   width: 384px;
