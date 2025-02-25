@@ -124,7 +124,7 @@ const LinkContainer = styled.div`
   text-align: center;
   font-weight: bold;
   width: 384px;
-  padding-bottom: 2rem;
+  padding-bottom: 1.4rem;
   position: relative;
   z-index: 1;
 `;
