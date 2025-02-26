@@ -51,10 +51,13 @@ const Button = styled.button`
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+
+    setLoading(true);
 
     try {
       const res = await fetch("/api/forgot-password", {
@@ -65,11 +68,14 @@ export default function ForgotPassword() {
 
       const result = await res.json();
       if (res.ok) {
+        setLoading(false);
         setMessage("✔ Vérifiez votre boîte mail pour le lien de réinitialisation.");
       } else {
+        setLoading(false);
         setMessage("❌ Une erreur s'est produite.");
       }
     } catch (error) {
+      setLoading(false);
       setMessage("❌ Impossible d'envoyer la requête." + error);
     }
   };
@@ -82,9 +88,11 @@ export default function ForgotPassword() {
         {message && <Text style={{ color: message.includes("✔") ? "green" : "red" }}>{message}</Text>}
         <Form onSubmit={handleSubmit}>
           <Input type="email" placeholder="Entrez votre email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <Button type="submit">Envoyer</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Chargement..." : "Envoyer"}
+          </Button>
         </Form>
       </Card>
     </BContainer>
-  );
+  );
 }

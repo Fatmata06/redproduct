@@ -50,73 +50,81 @@ const Button = styled.button`
 `;
 
 function ResetPasswordForm() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
-  const [token, setToken] = useState(null);
-  const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("");
+    const [token, setToken] = useState(null);
+    const [newPassword, setNewPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const tokenFromURL = searchParams.get("token");
-    if (tokenFromURL) {
-      setToken(tokenFromURL);
-    }
-  }, [searchParams]);
+    useEffect(() => {
+        const tokenFromURL = searchParams.get("token");
+        console.log(tokenFromURL);
+        if (tokenFromURL) {
+            setToken(tokenFromURL);
+        }
+    }, [searchParams]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage("");
 
-    if (!token) {
-      setMessage("❌ Token invalide ou manquant.");
-      return;
-    }
+        if (!token) {
+            setMessage("❌ Token invalide ou manquant.");
+            return;
+        }
+        setLoading(true);
 
-    try {
-      const res = await fetch("/api/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, newPassword }),
-      });
+        try {
+            const res = await fetch("/api/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token, newPassword }),
+            });
 
-      const result = await res.json();
-      if (res.ok) {
-        setMessage("✔ Mot de passe mis à jour avec succès !");
-        setTimeout(() => router.push("/login"), 3000);
-      } else {
-        setMessage("❌ " + result.message);
-      }
-    } catch (error) {
-      setMessage("❌ Impossible de mettre à jour le mot de passe.");
-    }
-  };
+            const result = await res.json();
+            if (res.ok) {
+                setLoading(false);
+                setMessage("✔ Mot de passe mis à jour avec succès !");
+                setTimeout(() => router.push("/login"), 3000);
+            } else {
+                setLoading(false);
+                setMessage("❌ " + result.message);
+            }
+        } catch (error) {
+            setLoading(false);
+            setMessage("❌ Impossible de mettre à jour le mot de passe.");
+        }
+    };
 
-  return (
-    <BContainer>
-      <Card>
-        <Title>🔒 Réinitialisation du Mot de Passe</Title>
-        <Text>Entrez votre nouveau mot de passe.</Text>
-        {message && <Text style={{ color: message.includes("✔") ? "green" : "red" }}>{message}</Text>}
-        <Form onSubmit={handleSubmit}>
-          <Input
-            type="password"
-            placeholder="Nouveau mot de passe"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-          <Button type="submit">Réinitialiser</Button>
-        </Form>
-      </Card>
-    </BContainer>
-  );
+    return (
+        <BContainer>
+            <Card>
+                <Title>🔒 Réinitialisation du Mot de Passe</Title>
+                <Text>Entrez votre nouveau mot de passe.</Text>
+                {message && <Text style={{ color: message.includes("✔") ? "green" : "red" }}>{message}</Text>}
+                <Form onSubmit={handleSubmit}>
+                    <Input
+                        type="password"
+                        placeholder="Nouveau mot de passe"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                    />
+                    <Button type="submit" disabled={loading}>
+                        {loading ? "Chargement..." : "Réinitialiser"}
+                    </Button>
+                </Form>
+            </Card>
+        </BContainer>
+    );
 }
 
 export default function ResetPassword() {
-  return (
-    <Suspense fallback={<div>Chargement...</div>}>
-      <ResetPasswordForm />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<div>Chargement...</div>}>
+            <ResetPasswordForm />
+        </Suspense>
+    );
 }
