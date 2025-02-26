@@ -1,6 +1,6 @@
 "use client";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import BContainer from "@/components/background";
 
@@ -49,17 +49,29 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export default function ResetPassword() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const token = searchParams.get("token");
   const router = useRouter();
 
+  const [token, setToken] = useState(null);
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const tokenFromURL = searchParams.get("token");
+    if (tokenFromURL) {
+      setToken(tokenFromURL);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+
+    if (!token) {
+      setMessage("❌ Token invalide ou manquant.");
+      return;
+    }
 
     try {
       const res = await fetch("/api/reset-password", {
@@ -76,7 +88,7 @@ export default function ResetPassword() {
         setMessage("❌ " + result.message);
       }
     } catch (error) {
-      setMessage("❌ Impossible de mettre à jour le mot de passe." + error);
+      setMessage("❌ Impossible de mettre à jour le mot de passe.");
     }
   };
 
@@ -84,7 +96,7 @@ export default function ResetPassword() {
     <BContainer>
       <Card>
         <Title>🔒 Réinitialisation du Mot de Passe</Title>
-        <Text>Entrez votre nouveau mot de passe pour accéder à votre compte.</Text>
+        <Text>Entrez votre nouveau mot de passe.</Text>
         {message && <Text style={{ color: message.includes("✔") ? "green" : "red" }}>{message}</Text>}
         <Form onSubmit={handleSubmit}>
           <Input
@@ -98,5 +110,13 @@ export default function ResetPassword() {
         </Form>
       </Card>
     </BContainer>
+  );
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
