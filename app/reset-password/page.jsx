@@ -1,6 +1,7 @@
 "use client";
 import styled from "styled-components";
 import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import BContainer from "@/components/background";
 
 const Card = styled.div`
@@ -48,8 +49,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
+export default function ResetPassword() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const router = useRouter();
+
+  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -57,34 +62,41 @@ export default function ForgotPassword() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/forgot-password", {
+      const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ token, newPassword }),
       });
 
       const result = await res.json();
       if (res.ok) {
-        setMessage("✔ Vérifiez votre boîte mail pour le lien de réinitialisation.");
+        setMessage("✔ Mot de passe mis à jour avec succès !");
+        setTimeout(() => router.push("/login"), 3000);
       } else {
-        setMessage("❌ Une erreur s'est produite.");
+        setMessage("❌ " + result.message);
       }
     } catch (error) {
-      setMessage("❌ Impossible d'envoyer la requête." + error);
+      setMessage("❌ Impossible de mettre à jour le mot de passe." + error);
     }
   };
 
   return (
     <BContainer>
       <Card>
-        <Title>Mot de passe oublié ?</Title>
-        <Text>Entrez votre email et nous vous enverrons un lien pour réinitialiser votre mot de passe.</Text>
+        <Title>🔒 Réinitialisation du Mot de Passe</Title>
+        <Text>Entrez votre nouveau mot de passe pour accéder à votre compte.</Text>
         {message && <Text style={{ color: message.includes("✔") ? "green" : "red" }}>{message}</Text>}
         <Form onSubmit={handleSubmit}>
-          <Input type="email" placeholder="Entrez votre email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <Button type="submit">Envoyer</Button>
+          <Input
+            type="password"
+            placeholder="Nouveau mot de passe"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
+          <Button type="submit">Réinitialiser</Button>
         </Form>
       </Card>
     </BContainer>
-  );
+  );
 }
